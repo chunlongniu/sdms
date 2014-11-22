@@ -33,7 +33,7 @@ class StationAction(object):
 
             if "index" in request.query.keys(): 
                 args["index"] = request.query["index"] 
-
+            logger.info("THe criterial is" + str(args))
             if "All" not in args.keys():
                 stations = station_dao.fetch_all_station(args)
         except KeyError as e:

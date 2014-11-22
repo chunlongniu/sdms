@@ -1,0 +1,184 @@
+﻿{% extends "base.html" %}
+{% block head_import%}
+<script type="text/javascript" src="/static/jqwidgets/jqxcore.js"></script>
+<script type="text/javascript" src="/static/jqwidgets/jqxdata.js"></script>
+<script type="text/javascript" src="/static/jqwidgets/jqxdraw.js"></script>
+<script type="text/javascript" src="/static/jqwidgets/jqxchart.core.js"></script>
+<link href="/static/css/alarm_active.css" rel="stylesheet" media="screen">
+{% endblock %}
+{% block css_style %}
+<style type="text/css">
+    body {
+        font-family:'微软雅黑';
+        margin:0;
+    }
+
+    footer{
+        min-width:1170px;
+        width:100%;
+        position:relative;
+        text-align:center;
+        margin-top:10px;
+        bottom:10px;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container" style="margin-top:10px;width:1140px">
+    <div id="alarm_control_bar">
+        <span>活动告警信息</span>    
+<!--        <div class="dropdown">
+          <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+          <label id="type_value">全部</label>
+          <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            <li role="presentation"><a role="menuitem" tabindex="0">全部</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="1">流水线号</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="2">收放板机号</a></li>
+          </ul>
+        </div>
+-->
+    </div>
+    <div id="alarm_container">
+        <div id="alarm_detail">
+            <span><label>车间：</label> <span id="workshop"></span></p>
+            <span><label>站号：</label> <span id="line_id"></span></p>
+            <span><label>设备：</label> <span id="machine_name"></span></p>
+            <span><label>设备号：</label> <span id="machine_id"></span></p>
+            <span><label>消除时间：</label> <span id="endtime"></span></p>
+            <span><label>异常信息描述：</label><span id="alarm_description"></span></p>
+        </div>
+        <ul id="alarm_activate">
+            {% for alarm in alarms %}
+             <!--<li style="background: #356aa0;"> -->
+             <li class="alarm_info" id="alarm_{{alarm.AlarmID}}" onclick="get_machine_info({{alarm.AlarmID}}, {{alarm.MachineID}}, this)">
+                {% if alarm.AlarmStatus == "history" %}
+                    <img src="/static/images/weak_alarm.png" width=20 height=20 />
+                {% elif alarm.AlarmStatus == "active" %}
+                    <img src="/static/images/alarm.png" width=20 height=20 />
+                {% endif %}
+                <span>{{alarm.StartTime}}</span>
+                <a>{{alarm.AlarmDescription}}</a>
+             </li>
+            {% endfor %}
+        </ul>
+        {%set max_visible = 6 %}
+        {%set index = 1 %}
+        {%if total_page < max_visible %}
+               {% set max_visible = total_page %}
+        {%else%}
+            {% if cur_page  > 3 %}
+               {% set index = cur_page - 2 %}  
+               {% set max_visible = index + 5 %}
+               {% if max_visible  > total_page %}
+                    {% set max_visible = total_page %}
+               {%endif%}
+            {%endif%}
+        {%endif%}
+        <nav style="text-align:right">
+             <ul class="pagination" id="pagination" total="{{total_page}}">
+                {%if cur_page == 1%}
+                    <li id="prev" class="disabled"><a>&laquo;</a></li>
+                {%else%}
+                    <li id="prev"><a>&laquo;</a></li>
+                {%endif%}
+                {% for page in range(index, max_visible) %}
+                    {% if page == cur_page %}
+                        <li class="active"><a>{{page}}</a></li>
+                    {% else%}
+                        <li><a>{{page}}</a></li>
+                    {% endif%}
+                {% endfor %}
+
+                {%if cur_page == total_page - 1%}
+                    <li id="more" class=disabled><a>&hellip;</a></li>
+                {%else%}
+                    <li id="more"><a>&hellip;</a></li>
+                {%endif%}
+                
+                {%if cur_page == total_page%}
+                    <li id="next" class=disabled><a>&raquo;</a></li>
+                {%else%}
+                    <li id="next"><a>&raquo;</a></li>
+                {%endif%}
+              </ul>
+        </nav>
+    </div>
+</div>
+<script type="text/javascript">
+
+    function get_machine_info(alarm_id, machine_id, element) {
+        repaint_list();
+        jQuery(element).css({"background":"#356AA0"})    
+        jQuery.ajax({url:"/sdms/alarm_active/" + alarm_id + "/" + machine_id,
+            type:"GET",
+            cache:false,
+            dataType: "text"}).done(
+            function(result){
+                instance = JSON.parse(result);
+                reset_detail_info(instance)
+            });
+    }
+
+    function reset_detail_info(instance) {
+        station = JSON.parse(instance.station);
+        machine = JSON.parse(instance.machine);
+        alarm = JSON.parse(instance.alarm)
+        jQuery("#workshop").text(station.Workshop);
+        jQuery("#line_id").text(station.LineID);
+        jQuery("#machine_name").text(machine.MachineName);
+        jQuery("#machine_id").text(machine.MachineID);
+        jQuery("#endtime").text(alarm.EndTime);
+        jQuery("#alarm_description").text(alarm.AlarmDescription);
+
+    }
+
+    function repaint_list() {
+        jQuery("#alarm_activate .alarm_info").each(function() {
+           jQuery(this).css({"background":"#FFF"})    
+        });
+    }
+
+    function get_cur_page() {
+        return jQuery("#pagination .active").text()
+    }
+
+    jQuery("#pagination li").on("click", function() {
+        var text = jQuery(this).text();   
+        var id = jQuery(this).attr("id"); 
+        var cur_page = get_cur_page();
+        var total = jQuery("#pagination").attr("total");
+        pagination_dispatcher(id, cur_page, text, total)
+    })
+
+    function pagination_dispatcher(id, cur_page, text, total) {
+        switch(id) {
+            case "prev":
+                forward(1);
+                break;
+            case "next":
+                forward(total-1);
+                break;
+            case "more":
+                more_page(cur_page, total);
+                break;
+            default:
+                forward(text);
+        } 
+    }
+
+    function more_page(cur_page, total) {
+        more = parseInt(cur_page) + 2
+        if (more < total)
+            forward(more);
+        else
+            forword(total);
+    }
+
+    function forward(text) {
+        var url = "/sdms/alarm_active/fetch?cur_page=" + text;
+        window.location.href=url
+    } 
+</script>
+{% endblock %}

@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+            <title>Station Device Manage System</title>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link href="/static/css/bootstrap.css" rel="stylesheet" media="screen">
+            <link href="/static/css/bootstrap-theme.css" rel="stylesheet" media="screen">
+            <link href="/static/css/bootstrap-responsive.css" rel="stylesheet" media="screen">
+            <script src="/static/js/jquery.min.js"></script>
+            <script src="/static/js/bootstrap.min.js"></script>
+            {% block head_import%}
+            {% endblock %}
+            <style type="text/css">
+                {% block css_style %}
+                {% endblock %}
+            </style>
+ 
+    </head>
+    <body>
+        <div class="navbar navbar-fixed-top navbar-inverse" style="margin:0px" role="navigation">
+            <div class="navbar-header">
+               <a class="navbar-brand" style="font-family:'微软雅黑'" 
+                 href="/">
+                 <strong>上海飞为自动化系统有限公司<strong>
+               </a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav" style="font-family:'微软雅黑'"> 
+                  <li class="active"><a href="/main">首页</a></li>
+                  <li><a href="#">工作站</a></li>
+                  <li><a href="#">关于我们</a></li>
+                </ul>
+            </div>
+    </div>
+        {% block content%}
+        {% endblock%}
+        <footer>
+            <hr size="2" noshade style="border:1px solid #cccccc;">
+            <p>&copy; Company 2013</p>
+        </footer>
+    </body>
+</html>

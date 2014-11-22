@@ -1,0 +1,79 @@
+from __future__ import absolute_import, division, print_function, with_statement
+import os
+import sys
+import logging
+import logging.handlers
+from functools import wraps
+from colorlog import ColoredFormatter
+
+LOG_FILE_PATH = os.path.join(os.getcwd(), "../", "logs", "sdms_file.log")
+MAX_LOG_SIZE = 10*1024*1024
+
+class StreamFromatter(ColoredFormatter):
+
+    DEFAULT_FORMAT = '%(log_color)s[%(levelname)1.1s %(asctime)s %(module)s:%(lineno)d]%(log_color)s %(message)s'
+    DEFAULT_DATE_FORMAT = '%y%m%d %H:%M:%S'
+    DEFAULT_COLORS = {
+        'DEBUG': 'cyan',
+        'INFO': 'green',
+        'WARNING': 'yellow',
+        'ERROR': 'red',
+    }
+
+    def __init__(self, fmt=DEFAULT_FORMAT,
+        datefmt=DEFAULT_DATE_FORMAT, colors=DEFAULT_COLORS):
+        super(StreamFromatter, self).__init__(format = fmt, datefmt = datefmt, reset = True, log_colors = colors)
+
+    def __call__(self, *argc, **argk):
+        return StreamFormatter(*argc, **argk )
+
+
+class FileFormatter(logging.Formatter):
+    DEFAULT_FORMAT = '[%(levelname)1.1s %(asctime)s %(module)s:%(lineno)d] %(message)s'
+    DEFAULT_DATE_FORMAT = '%y%m%d %H:%M:%S'
+
+    def __init__(self, fmt=DEFAULT_FORMAT, datefmt=DEFAULT_DATE_FORMAT):
+        super(FileFormatter, self).__init__(fmt=fmt, datefmt=datefmt)
+
+    def __call__(self, *argc, **argk):
+        return logging.Formatter(*argc, **argk)
+    
+
+def _log_setup(func):
+    @wraps(func)
+    def wrapper_log(name=None, **argk):
+        logger = None
+        if name:
+            logger = logging.getLogger(name) 
+        if logger is None:
+            logger = logging.getLogger(__file__) 
+        logger.propagate=False
+        _setup_handlers(logger)
+        return func(name, logger=logger)
+    return wrapper_log
+
+
+import platform
+def _setup_handlers(logger):
+    stream_formatter = StreamFromatter()
+    file_formatter = FileFormatter()
+    stream_handler = logging.StreamHandler(sys.stderr)
+    file_handler = logging.handlers.RotatingFileHandler(LOG_FILE_PATH,mode='a',
+                   backupCount=5, maxBytes= MAX_LOG_SIZE)
+    
+	platform_info = platform.architecture()
+
+	if "WindowsPE" in platform_info:
+		stream_handler.setFormatter(file_formatter)
+	else:
+		stream_handler.setFormatter(stream_formatter)
+    file_handler.setFormatter(file_formatter)
+
+    logger.addHandler(stream_handler)
+    logger.addHandler(file_handler)
+
+@_log_setup
+def SdmsLogger(name, **argk): 
+    logger = argk['logger']
+    logger.setLevel(logging.INFO)
+    return logger

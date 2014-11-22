@@ -1,0 +1,55 @@
+﻿{% extends "base.html" %}
+{% block css_style %}
+   <style type="text/css">
+        body {
+             width:100%;
+             min-width:1170px;
+             padding-top:0px;
+        }
+
+       .span4 {
+            margin-top:30pt;
+            text-align:center;
+            width:350px;
+        }
+
+       .img-circle {
+            -webkit-border-radius: 500px;
+            -moz-border-radius: 500px;
+            border-radius: 500px;
+            width:140px;
+            height:140px;
+            display: inline-block;
+            background-color:#CCC;
+            border:5px solid #FFF;
+            color:black;
+         }
+        footer{
+            width:100%;
+            min-width:1170px;
+            text-align:center;
+            position:absolute;
+            bottom:40px;
+         }
+    </style>
+{% endblock %}
+{% block content %}
+<div class="container matrix" style="margin-top:30px;font-family:'微软雅黑'">
+    <div class="span4">
+        <a href="/sdms/station_info/search"><img class="img-circle"</a>
+        <h2>流水线设备 </h2>
+        <p>显示流水线设备运行状况 </p>
+    </div>
+    <div class="span4">
+        <a href="/sdms/device/loader"><img class="img-circle" href="./intension"  ></a>
+        <h2>设备信息 </h2>
+        <p>查询所有设备信息</p>
+    </div>
+    <div class="span4">
+        <a href="/sdms/alarm_active/fetch"><img class="img-circle" href="./intension" ></a>
+        <h2>活动告警</h2>
+        <p>显示活动告警信息</p>
+    </div>
+</div>
+{% endblock %}
+</html>

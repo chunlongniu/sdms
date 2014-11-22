@@ -1,0 +1,121 @@
+.fb_machine:hover, .sb_machine:hover {
+    -webkit-transform:scale(1.1);
+    transform:scale(1.1);
+}
+
+.fl_process {
+    width:300px;
+    height:54px;
+    margin-top:4px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border:1px solid #CCC;
+}
+
+.fb_machine {
+    background-color:#01814A;
+}
+
+.sb_machine {
+    background-color:red;
+}
+
+ul {
+    list-style:none
+}
+
+.fb_machine, .sb_machine {
+    height:60px;
+    width:80px;
+    text-align:center;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color:red;
+    box-shadow: 4px 4px 2px #DDD;
+    font-family:'微软雅黑';
+    display:table-cell;
+    vertical-align:middle;
+    color:#FFF;
+    -webkit-transition:transform 0.5s;
+    transition:transform 0.5s;
+    cursor:pointer;
+}
+
+.status_info li {
+    float:left;
+    padding:0 14;
+    margin-left:6px;
+}
+
+#control_panel li {
+    margin:8 -6;
+}
+
+.base_info ul {
+    height:85px;
+}
+
+#control_panel a {
+    cursor:pointer;
+}
+
+#control_panel li:first-child {
+    margin-top:-30pt;
+}
+
+#control_panel ul {
+    height:200px;
+    margin-left:8px;
+    border-left:1px solid skyblue;
+    border-right:1px solid skyblue;
+    border-bottom:1px solid skyblue;
+}
+
+#form_panel {
+    height:50px;
+    border-bottom:1px solid skyblue;
+}
+
+body {
+    font-family:'微软雅黑';
+    margin:0;
+}
+
+footer{
+    min-width:1170px;
+    width:100%;
+    position:relative;
+    text-align:center;
+    margin-top:10px;
+    bottom:10px;
+}
+
+thead th{
+    font-family:'微软雅黑';
+    height:35px;
+    border-bottom:1px solid skyblue;
+    text-align:left;
+    padding-left:24pt;
+}
+
+tbody td {
+    padding-top:6pt;
+    height:35px;
+    width:120px;
+}
+
+.base_info div{
+    border-left:2px solid skyblue;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    height:85px;
+}
+.base_info li {
+    font-family:'微软雅黑';
+    font-size:14px;
+    margin-left:-10px;
+}
+

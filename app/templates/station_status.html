@@ -1,0 +1,146 @@
+﻿{% extends "base.html" %}
+{% block head_import%}
+<script type="text/javascript" src="/static/jqwidgets/jqxcore.js"></script>
+<script type="text/javascript" src="/static/jqwidgets/jqxdata.js"></script>
+<script type="text/javascript" src="/static/jqwidgets/jqxdraw.js"></script>
+<script type="text/javascript" src="/static/jqwidgets/jqxchart.core.js"></script>
+<link href="/static/css/station_status_info.css" rel="stylesheet" media="screen">
+{% endblock %}
+{% block css_style %}
+    <style type="text/css">
+
+    </style>
+{% endblock %}
+{% block content %}
+<div class="container" style="margin-top:10px;width:1140px">
+	<div style="margin-top:48pt;" id="form_panel">
+		<div style="text-align:right">
+			<div class="input-group" style="float:right" >
+			   <input type="text" id="criterial" class="form-control" style="width:400px"/>
+			   <div class="input-group-btn" style="width:0px">
+				   <button id="station_submit"type="button" class="btn btn-default">查询</button>
+				   <button id="select_btn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+						<span id="type_value" value="All" >全部 </span>
+						<span class="caret"></span>
+						<span class="sr-only">Toggle Dropdown</span>
+				   </button>
+				   <ul class="dropdown-menu" id="dropdown-menu" role="menu">
+						<li><a value="All">全部</a></li>
+						<li><a value="Workshop">车间</a></li>
+						<li><a value="LineType">流水线</a></li>
+				   </ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="device_status_container">
+		<table width=100% style="margin-top:4pt" cellpadding=2 cellspacing=4 height=500px> 
+			 <thead>
+				 <th width=150px>消息</th>
+				 <th style="padding-left:60px">状态</th>
+			 </thead>
+			 <tbody>
+                {% for station in station_list %} 
+				<tr id = "station_{{station.LineID}}">
+					<td  class="base_info" height=100px>
+						<div>	
+							<ul>
+								<li>
+									<label>站（流水线）号:<label><a id="line_id">{{station.LineID}}</a>
+								</li>
+								<li>
+									<label>所在车间:<label><a id="workshop">{{station.Workshop}}</a>
+								</li>
+								<li>
+									<label>制程（流水线类型）:<label><a id="line_type">{{station.LineType}}</a>
+								</li>
+							</ul>
+						</div>
+					</td>
+					<td class="status_info" valign=middle height=100px>
+						<ul style="height:85px">
+							<li>
+								<div id="fb_machine_{{station.LineID}}" class="fb_machine">	
+									放板机
+								</div>
+							</li>
+							<li>
+								<div class="fl_process">	
+								</div>
+							</li>
+							<li >
+								<div class="sb_machine">
+									收板机
+								</div>
+							</li>
+						</ul>
+					</td>
+                    {% if loop.index == 1 %}
+                        <td id = "control_panel" valign=top rowspan=4 width=80px style="padding-left:2pt">
+                            <ul>
+                                <li style="font:13pt 微软雅黑">共（25）组 设备</li>
+                                <li style="font:13pt 微软雅黑">当前为第（1）组 设备</li>
+                                <li><a>首页设备</a></li>
+                                <li><a>上一组</a></li>
+                                <li><a>下一组</a></li>
+                                <li><a>终页设备</a></li>
+                            </ul>
+                        </td>
+                    {% endif %}
+				 </tr>
+                {% endfor %}
+			 </tbody>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+    jQuery("#dropdown-menu>li>a").click(function(){
+        var text = jQuery(this).text();
+        var value = jQuery(this).attr("value");
+        jQuery("#type_value").text(text);
+        jQuery("#type_value").attr("value", value);
+    });
+    
+    jQuery("#station_submit").click(function() {
+        var criterial = jQuery("#criterial").val();
+        var search_type = jQuery("#type_value").attr("value");
+        var link = "/sdms/station_info/search?search_type=" + search_type + "&criterial" + criterial;
+        window.location.href = link;
+    });
+
+    jQuery(document).ready(function(){
+       setInterval(loop_stations, 5000); 
+    })
+
+    function loop_stations() {
+        ids = filter_ids();    
+        args = "(" + ids.toString() + ")";
+        jQuery.ajax({url:"/sdms/ajax_fetch/station_info/fetch",
+                    data:{ids: args},
+                    type:"GET",
+                    cache:false,
+                    dataType: "text"}).done(
+                    function(results){
+                        instances = convert_to_json(results);
+                        for (index in instances) { 
+                            instance = convert_to_json(instances[index])
+                        }
+                    }); 
+    }
+
+    function convert_to_json(str) {
+        return JSON.parse(str) 
+    }
+    
+    function filter_ids() {
+        ids = new Array()
+        jQuery("tbody tr").each(function(index){
+            id = jQuery(this).attr("id").split("_")[1]
+            ids.push(id);
+        })
+        return ids
+    }
+
+
+</script>
+{% endblock %}

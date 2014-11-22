@@ -1,0 +1,125 @@
+﻿{% extends "base.html" %}
+{% block head_import%}
+<script type="text/javascript" src="/static/jqwidgets/jqxcore.js"></script>
+<script type="text/javascript" src="/static/jqwidgets/jqxdata.js"></script>
+<script type="text/javascript" src="/static/jqwidgets/jqxdraw.js"></script>
+<script type="text/javascript" src="/static/jqwidgets/jqxchart.core.js"></script>
+<script type="text/javascript" src="/static/jquery-ui/jquery-ui.js"></script>
+<link rel="stylesheet" href="/static/jqwidgets/styles/jqx.base.css" type="text/css" />
+<link rel="stylesheet" href="/static/jquery-ui/jquery-ui.css" type="text/css" />
+{% endblock %}
+{% block css_style %}
+        <style type="text/css">
+            body {
+                padding-top:0px;    
+                font-family:'微软雅黑';
+            }
+
+            footer{
+                min-width:1170px;
+                width:100%;
+                position:relative;
+                text-align:center;
+                margin-top:10px;
+                bottom:10px;
+            }
+
+            #chartContainer{
+                //border:1px solid #AAA;
+                margin-right:4px;
+                -webkit-border-radius: 4px;
+                -moz-border-radius: 4px;
+                border-radius: 4px;
+            }
+           .jqx-chart-legend-text, .jqx-chart-title-text {
+                font-family:'微软雅黑'
+           }
+        </style>
+{% endblock %}
+{% block content %}
+<div class="container" style="margin-top:10px;width:1140px">
+    <div id="chartPanel" style="font-family:'微软雅黑';margin-top:0px;float:left">
+        <label>xxxx-xx-xx</label> 到 <label> xxxx-xx-xx </label> 生产趋势图 (<label>天</label>)
+        <div id="chartContainer" style="width:900px; height:460px;"></div>
+    </div>
+    <div id="calendarContainer" style="float:left;width:80px;font-family:'微软雅黑'">
+        <label>开始日期:</label><br/><div id ="start_date"> </div>
+        <label>当前日期:</label><br/><div id ="end_date"> </div>
+    </div>
+</div>
+<script type="text/javascript">
+    TYPE = "spline";
+    TITLE = "产品生产趋势图";
+    PADDING = { left: 5, top: 5, right: 25, bottom: 5 };
+    MIN_VALUE = 0;
+    MAX_VALUE = 100;
+    DATA_FIELD = "Hour";
+    COLOR_SCHEMA = "scheme01";
+    DESCRIPTION = "产品生产趋势图";
+    TITLE_PADDING = { left: 90, top: 0, right: 90, bottom: 10 };
+    SHOW_GRIT_LINE = true;
+
+    jQuery(document).ready(function(){
+        $("#start_date").datepicker();
+        $("#end_date").datepicker();
+        var settings = {
+            title: TITLE,
+            Description: DESCRIPTION,
+            padding: PADDING,
+            titlePadding: TITLE_PADDING,
+            source: get_station_info(),
+            categoryAxis:
+                {
+                    dataField: DATA_FIELD,
+                    showGridLines: SHOW_GRIT_LINE 
+                },
+            colorScheme: COLOR_SCHEMA,
+            seriesGroups:[
+                {
+                    type: TYPE,
+                    seriesGapPercent:0,
+                    valueAxis: {
+                        minValue:MIN_VALUE,
+                        maxValue:MAX_VALUE,
+                        unitInterval:5,
+                        Description: "SPINE OF PRODUCT PASSAGE"
+                    },
+                    series: get_series()
+                }
+            ]
+        }
+
+        $('#chartContainer').jqxChart(settings);
+    })
+
+
+    function get_station_info() {
+         var station_info = [
+            {Hour:'00:00', Rate_1:20, Rate_2:10},
+            {Hour:'01:00', Rate_1:30, Rate_2:40},
+            {Hour:'02:00', Rate_1:50, Rate_2:20},
+            {Hour:'03:00', Rate_1:20, Rate_2:40},
+            {Hour:'04:00', Rate_1:10, Rate_2:5},
+            {Hour:'05:00', Rate_1:5, Rate_2:10},
+            {Hour:'06:00', Rate_1:5, Rate_2:10},
+            {Hour:'07:00', Rate_1:10, Rate_2:10},
+            {Hour:'08:00', Rate_1:10, Rate_2:20},
+            {Hour:'09:00', Rate_1:50, Rate_2:40},
+            {Hour:'10:00', Rate_1:55, Rate_2:80},
+            {Hour:'11:00', Rate_1:54, Rate_2:90},
+        ];
+        return station_info;
+    }
+
+    function get_settings() {
+
+    }
+
+    function get_series() {
+        var series = [  {dataField:'Rate_1', displayText:'产品A'},
+                        {dataField:'Rate_2', displayText:'产品B'}]
+        return series;
+    }
+
+</script>
+{% endblock %}

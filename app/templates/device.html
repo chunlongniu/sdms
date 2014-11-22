@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Station Device Manage System</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="static/css/bootstrap.css" rel="stylesheet" media="screen">
+        <link href="static/css/bootstrap-theme.css" rel="stylesheet" media="screen">
+        <link href="static/css/bootstrap-responsive.css" rel="stylesheet" media="screen">
+        <script src="static/js/jquery.min.js"></script>
+        <script src="static/js/bootstrap.min.js"></script>
+        <style type="text/css">
+            body {
+                padding-top:0px;    
+            }
+            tbody {
+                padding 4px;
+                border:1px solid #DDD;
+            }
+            .searchbox {
+                padding-top:8px;
+                padding-bottom:16px;
+                text-align:right;
+                border-bottom:2px solid #DDD;
+                margin-bottom:10px;
+            }
+            .searchbox>input{
+                height:32px;
+                width:250px;
+                color:#EEE;
+                padding-left:4px;
+            }
+
+            .searchbox>button {
+                height:32px;
+                margin-left:-6px;
+            }
+
+            .pagination_self {
+                text-align:right;
+                margin-top:-4px;
+            }
+
+            .pagination_self a{
+                font-size:14px;
+                cursor:pointer;
+                padding:6px;
+            }
+
+            footer{
+                width:1170px;
+                text-align:center;
+                position:absolute;
+                bottom:40px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class=container>
+            <div class="navbar navbar-static-top navbar-inverse" role="navigation">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Station Manager System</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav"> 
+                        <li class="active"><a href="/">Home</a></li>
+                        <li><a href="#">Station</a></li>
+                        <li><a href="#">About Us</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <form name="searchbox" class="searchbox">
+                <input type="text" value="searching"/>
+                <button type="button">search</button>
+            </form>
+
+            <div class="table-responsive table-panel">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>column1</th>
+                            <th>column1</th>
+                            <th>column1</th>
+                            <th>column1</th>
+                            <th>column1</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for device in device_list %}
+                        <tr>
+                            <td>{{device.name}}</td>
+                            <td>{{device.device_type}}</td>
+                            <td>{{device.status}}</td>
+                            <td>{{device.device_type}}</td>
+                            <td>{{device.time}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div class="pagination_self">
+                    <a>&laquo;</a>
+                    <a>1</a>
+                    <a>2</a>
+                    <a>&middot;&middot;&middot;</a>
+                    <a>&raquo;</a>
+                </div>
+            </div>
+            <footer>
+                <hr size="2" noshade style="border:1px solid #cccccc;">
+                <p>&copy; Company 2013</p>
+            </footer>
+        </div>
+     </body>
+</html>

@@ -1,0 +1,57 @@
+#alarm_activate{
+    list-style:none;
+    margin-left:-40px;
+    font-family:'微软雅黑';
+}
+
+#alarm_activate span {
+    color:#525252;
+    margin:0 9;
+}
+
+#alarm_activate li {
+    padding:14pt;
+    border-bottom:1px solid #F0F0F0;
+    -webkit-transition:transform 0.5s;
+    transition:transform 0.5s;
+    cursor:pointer;
+    //border-color: #316293 #316293 #29547E !important;
+    //background: #356aa0;
+}
+
+#alarm_activate li:first-child {
+    border-top:1px solid skyblue;
+    margin-top:10px;
+}
+
+#alarm_activate li img {
+    margin-right:16pt;
+}
+
+#alarm_control_bar {
+    font-family:'微软雅黑';
+    margin-top:40px;
+    height:35px;
+}
+
+#alarm_control_bar span{
+    padding-top:10px;
+    font-size:14pt;
+    color:#525252;
+}
+
+.dropdown {
+    float:right;
+}
+#alarm_detail {
+    padding:8 8 8 8;
+    background-color:#FFF;
+    width:300px;height:410px;float:right;border:1px solid skyblue
+}
+#alarm_container{
+    height:480px;
+}
+
+#pagination li a {
+    cursor:default;
+}

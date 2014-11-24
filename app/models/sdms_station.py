@@ -52,16 +52,17 @@ class StationDao(object):
         logger.info(criterial)
         sql_query = "SELECT * FROM stations limit %d, %d" % (index, limit)
         if criterial:
-                sql_query = "SELECT * FROM stations WHERE 1 = 1 %s limit %d, %d" % (criterial, index, limit)
+                sql_query = "SELECT * FROM stations WHERE 1 = 1 AND %s limit %d, %d" % (criterial, index, limit)
 
         return self._execute_fetch_query(sql_query)
 
     def compose_criterial(self, argk):
-        sql_query = ""
+        sql_query = [] 
         if argk:
             for key, value in argk.items():
-                sql_query += "AND %s like '%%%s%%'" % (key, value) 
-        return sql_query
+                sql_query.append(" %s like '%%%s%%' " % (key, value))
+
+        return "OR".join(sql_query)
     
     def _wrap_objects(self, results):
         for result in results:

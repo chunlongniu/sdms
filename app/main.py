@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
+import signal
 import logging
 from bottle import run
 from bottle import static_file
@@ -29,7 +30,6 @@ logger.setLevel(logging.DEBUG)
 
 @app.route("/static/<filename:re:.*>")
 def server_static(filename):
-    print filename
     return static_file(filename, root = _STATIC_PATH)
 
 @app.route("/data/<filename:re:.*>")
@@ -45,4 +45,6 @@ def start():
         server = CherryPyServer(host="0.0.0.0", port="8888")
         server.run(app)
     except KeyboardInterrupt:
+        pid = os.getpid()
+        os.kill(pid, signal.SIGTERM)
         logger.info("Server down ...")

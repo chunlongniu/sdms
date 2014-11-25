@@ -74,18 +74,42 @@
 					<td class="status_info" valign=middle height=100px>
 						<ul style="height:85px">
 							<li>
-								<div id="fb_machine_{{station.LineID}}" class="fb_machine">	
-									放板机
-								</div>
+                                {% if station.LoaderStatus == '自动运行中'%}
+								    <div id="fb_machine_{{station.LineID}}" class="fb_machine" style="background-color:green">	
+									    放板机
+                                    </div>
+                                {% elif station.LoaderStatus == '待机' %}
+                                    <div id="fb_machine_{{station.LineID}}" class="fb_machine" style="background-color:orange">	
+									    放板机
+                                    </div>
+                                {% else%}
+                                    <div id="fb_machine_{{station.LineID}}" class="fb_machine" style="background-color:red">	
+									    放板机
+                                    </div>
+
+                                {%endif%}
+
 							</li>
 							<li>
-								<div class="fl_process">	
-								</div>
+                                <div class="fl_process">	
+                                </div>
 							</li>
 							<li >
-								<div class="sb_machine">
-									收板机
-								</div>
+                                {% if station.UnloaderStatus == '自动运行中'%}
+								    <div id="sb_machine_{{station.LineID}}" class="sb_machine" style="background-color:green">	
+                                        收板机
+                                    </div>
+                                {% elif station.UnloaderStatus == '待机' %}
+                                    <div id="sb_machine_{{station.LineID}}" class="sb_machine" style="background-color:orange">	
+                                        收板机
+                                    </div>
+                                {% else%}
+                                    <div id="sb_machine_{{station.LineID}}" class="sb_machine" style="background-color:red">	
+                                        收板机
+                                    </div>
+
+                                {%endif%}
+
 							</li>
 						</ul>
 					</td>
@@ -140,9 +164,22 @@
                     function(results){
                         instances = convert_to_json(results);
                         for (index in instances) { 
-                            instance = convert_to_json(instances[index])
+                            instance = convert_to_json(instances[index]);
+                            fb_id = "#fb_machine_" + instance.LineID;
+                            sb_id = "#sb_machine_" + instance.LineID;
+                            change_color(fb_id, instance.LoaderStatus);
+                            change_color(sb_id, instance.UnloaderStatus);
                         }
                     }); 
+    }
+
+    function change_color(id, _status) {
+        if (_status == "自动运行中")
+            jQuery(id).css("background-color","green");
+        else if (_status == "待机")
+            jQuery(id).css("background-color","orange");
+        else
+            jQuery(id).css("background-color","red");
     }
 
     function convert_to_json(str) {

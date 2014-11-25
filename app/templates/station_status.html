@@ -76,15 +76,15 @@
 							<li>
                                 {% if station.LoaderStatus == '自动运行中'%}
 								    <div id="fb_machine_{{station.LineID}}" class="fb_machine" style="background-color:green">	
-									    放板机
+									    <a href="/sdms/machine/fetch/{{station.LoaderID}}">放板机</a>
                                     </div>
                                 {% elif station.LoaderStatus == '待机' %}
                                     <div id="fb_machine_{{station.LineID}}" class="fb_machine" style="background-color:orange">	
-									    放板机
+									    <a href="/sdms/machine/fetch/{{station.LoaderID}}">放板机</a>
                                     </div>
                                 {% else%}
                                     <div id="fb_machine_{{station.LineID}}" class="fb_machine" style="background-color:red">	
-									    放板机
+									    <a href="/sdms/machine/fetch/{{station.LoaderID}}">放板机</a>
                                     </div>
 
                                 {%endif%}
@@ -97,15 +97,15 @@
 							<li >
                                 {% if station.UnloaderStatus == '自动运行中'%}
 								    <div id="sb_machine_{{station.LineID}}" class="sb_machine" style="background-color:green">	
-                                        收板机
+									    <a href="/sdms/machine/fetch/{{station.UnloaderID}}">收板机</a>
                                     </div>
                                 {% elif station.UnloaderStatus == '待机' %}
                                     <div id="sb_machine_{{station.LineID}}" class="sb_machine" style="background-color:orange">	
-                                        收板机
+									    <a href="/sdms/machine/fetch/{{station.UnloaderID}}">收板机</a>
                                     </div>
                                 {% else%}
                                     <div id="sb_machine_{{station.LineID}}" class="sb_machine" style="background-color:red">	
-                                        收板机
+									    <a href="/sdms/machine/fetch/{{station.UnloaderID}}">收板机</a>
                                     </div>
 
                                 {%endif%}
@@ -147,7 +147,7 @@
     });
 
     jQuery(document).ready(function(){
-       setInterval(loop_stations, 5000); 
+       setInterval(loop_stations, 2000); 
     })
 
     function loop_stations() {

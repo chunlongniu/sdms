@@ -26,22 +26,22 @@
 				   <button id="select_btn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 						<span id="type_value" value="All" >
                           {% if type == 'All' %}  
-                            全部 
+                            站号
                           {%elif type == 'Workshop'%}
-                            车间
+                            车间名称
                           {%elif type == 'LineType'%}
-                            流水线
+                            制程 
                           {%else%}
-                            全部 
+                            站号
                           {%endif%}
                         </span>
 						<span class="caret"></span>
 						<span class="sr-only">Toggle Dropdown</span>
 				   </button>
 				   <ul class="dropdown-menu" id="dropdown-menu" role="menu">
-						<li><a value="All">全部</a></li>
-						<li><a value="Workshop">车间</a></li>
-						<li><a value="LineType">流水线</a></li>
+						<li><a value="All">站号</a></li>
+						<li><a value="Workshop">车间名称</a></li>
+						<li><a value="LineType">制程</a></li>
 				   </ul>
 				</div>
 			</div>

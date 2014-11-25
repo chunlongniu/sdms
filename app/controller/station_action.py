@@ -27,28 +27,20 @@ class StationAction(object):
         #args = unicode(request.forms.get("type"), "utf-8"), request.forms.get("criterial")
         arg_names = ["search_type", "criterial"]
         stations = []
-        _value, _type = None, None
         station_dao = StationDao()
         try:
             args = self.__handler_args(arg_names)
 
             if "index" in request.query.keys(): 
                 args["index"] = request.query["index"] 
-            _type = str(args.keys().pop())
-            _value = str(args.values().pop())
-            print _value
-            logger.info("THe criterial is: " + str(args) + " and type is: " + _type)
+            logger.info("THe criterial is" + str(args))
             if "All" not in args.keys():
-                stations = station_dao.fetch_all_station(args)
-            else:
-                args={"Workshop":args['All'], "LineType":args['All']}
-                logger.info("THe criterial is: " + str(args))
                 stations = station_dao.fetch_all_station(args)
         except KeyError as e:
             logger.debug("No Criterial : " + str(e))
-            stations = station_dao.fetch_all_station()
 
-        return {"criterial":_value, "stations":stations, "type":_type}
+        stations = station_dao.fetch_all_station()
+        return stations 
     
     def __handler_args(self, arg_names):
         values = [tuple([unicode(request.query[name], "utf-8") for name in arg_names])]
@@ -74,7 +66,9 @@ def _station_by_ids():
     logger.info("Fetch stations via ajax")
     stations = station_act.fetch_station_by_ids()
     for station in stations:
+        #results.append({"Workshop": station.Workshop})
         results.append(str(station))
+    #response.content_type="application/json"
     return json.dumps(results, ensure_ascii=False) 
 
 def _station_status(operation):
@@ -86,11 +80,11 @@ def _station_status(operation):
         results = _convert_iterate_to_array(stations)
     logger.info("Fetch stations successfully") 
 
-    return {"station_list":results, "criterial":stations['criterial'], "type":stations['type']}
+    return {"station_list":results}
 
 def _convert_iterate_to_array(stations):
     results = []
-    for station in stations['stations']:
+    for station in stations:
         logger.debug(station.Workshop)
         results.append(station)
     return results

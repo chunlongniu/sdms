@@ -16,25 +16,11 @@
 	<div style="margin-top:48pt;" id="form_panel">
 		<div style="text-align:right">
 			<div class="input-group" style="float:right" >
-			   <input type="text" id="criterial" class="form-control" style="width:400px"
-                    {%if criterial %}
-                        value={{ criterial }}
-                    {% endif%}
-                />
+			   <input type="text" id="criterial" class="form-control" style="width:400px"/>
 			   <div class="input-group-btn" style="width:0px">
 				   <button id="station_submit"type="button" class="btn btn-default">查询</button>
 				   <button id="select_btn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-						<span id="type_value" value="All" >
-                          {% if type == 'All' %}  
-                            全部 
-                          {%elif type == 'Workshop'%}
-                            车间
-                          {%elif type == 'LineType'%}
-                            流水线
-                          {%else%}
-                            全部 
-                          {%endif%}
-                        </span>
+						<span id="type_value" value="All" >全部 </span>
 						<span class="caret"></span>
 						<span class="sr-only">Toggle Dropdown</span>
 				   </button>
@@ -118,7 +104,7 @@
     jQuery("#station_submit").click(function() {
         var criterial = jQuery("#criterial").val();
         var search_type = jQuery("#type_value").attr("value");
-        var link = "/sdms/station_info/search?search_type=" + search_type + "&criterial=" + criterial;
+        var link = "/sdms/station_info/search?search_type=" + search_type + "&criterial" + criterial;
         window.location.href = link;
     });
 
@@ -128,9 +114,6 @@
 
     function loop_stations() {
         ids = filter_ids();    
-        if (ids.length == 0)
-            return;
-
         args = "(" + ids.toString() + ")";
         jQuery.ajax({url:"/sdms/ajax_fetch/station_info/fetch",
                     data:{ids: args},

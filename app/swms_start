@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
 import sys
-import signal
 sys.path.append("C:\Users\Administrator\sdms\app\templates")
 sys.path.append("C:\Users\Administrator\sdms\Lib\site-packages")
 sys.path.append("C:\Users\Administrator\sdms\Lib")
@@ -12,4 +10,5 @@ sys.path.append("C:\\Users\\Administrator\\sdms\\app")
 from main import start
 
 if __name__ == "__main__":
+    print sys.path
     start()

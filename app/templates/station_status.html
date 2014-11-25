@@ -167,6 +167,7 @@
                             instance = convert_to_json(instances[index]);
                             fb_id = "#fb_machine_" + instance.LineID;
                             sb_id = "#sb_machine_" + instance.LineID;
+
                             change_color(fb_id, instance.LoaderStatus);
                             change_color(sb_id, instance.UnloaderStatus);
                         }

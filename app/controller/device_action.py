@@ -86,7 +86,8 @@ import json
 def _fetch_device():
     device_act = DeviceAction()
     results = device_act.fetch_device_info()
-#    _print(results)
+    if "machine_id" in request.query.keys(): 
+        results["machine_id"] = request.query['machine_id']
     return results
 
 def _print(results):

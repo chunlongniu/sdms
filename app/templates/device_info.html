@@ -32,16 +32,18 @@
 			<li><h4>车间</h4>
 				<ul>
                     {% for device in WorkShop %}
-					    <li id="work_shop_{{device.machine_id}}" onclick='get_machine_info({{device.machine_id}}, "{{device.line_type}}", {{device.line_id}}, "{{device.loader_status}}", "work_shop_"+{{device.machine_id}})'>
+                            <li id="work_shop_{{device.machine_id}}" onclick='get_machine_info({{device.machine_id}}, "{{device.line_type}}", {{device.line_id}}, "{{device.loader_status}}", "work_shop_"+{{device.machine_id}})'>
                                 {{device.cat_name}} <br/>&lfloor;&nbsp;{{device.machine}}</li>	
+
                     {% endfor%}
 				</ul>
 		  	  </li>
 			<li><h4>流水线</h4>
 				<ul>
+
                     {% for device in LineType %}
-					    <li id="line_type_{{device.machine_id}}" onclick='get_machine_info({{device.machine_id}}, "{{device.line_type}}", {{device.line_id}}, "{{device.unloader_status}}", "line_type_"+{{device.machine_id}})'>
-                        {{device.cat_name}} <br/>&lfloor;&nbsp;{{device.machine}}</li>	
+                            <li id="work_shop_{{device.machine_id}}" onclick='get_machine_info({{device.machine_id}}, "{{device.line_type}}", {{device.line_id}}, "{{device.loader_status}}", "work_shop_"+{{device.machine_id}})'>
+                                {{device.cat_name}} <br/>&lfloor;&nbsp;{{device.machine}}</li>	
                     {% endfor%}
 
 				</ul>
@@ -105,6 +107,16 @@ border-radius: 8px;margin-top:-3px; padding-top:-4px">
 
 </div>
 <script type="text/javascript">
+    jQuery(document).ready(
+        function() {
+            var url=window.location.search;
+            var machine_id = url.split("=")[1];
+            var obj = jQuery("#work_shop_"+ machine_id );
+            .trigger("click");
+            
+        }
+    );
+
     function get_machine_info(machine_id, line_type, line_id, line_status, base_id) {
         clean_style();
         jQuery("#"+base_id).css({"background-color":"#DDD"});

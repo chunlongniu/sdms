@@ -76,15 +76,15 @@
 							<li>
                                 {% if station.LoaderStatus == '自动运行中'%}
 								    <div id="fb_machine_{{station.LineID}}" class="fb_machine" style="background-color:green">	
-									    <a href="/sdms/machine/fetch/{{station.LoaderID}}">放板机</a>
+									    <a href="/sdms/device/loader?machine_id={{station.LoaderID}}">放板机</a>
                                     </div>
                                 {% elif station.LoaderStatus == '待机' %}
                                     <div id="fb_machine_{{station.LineID}}" class="fb_machine" style="background-color:orange">	
-									    <a href="/sdms/machine/fetch/{{station.LoaderID}}">放板机</a>
+									    <a href="/sdms/device/loader?machine_id={{station.LoaderID}}">放板机</a>
                                     </div>
-                                {% else%}
+                                {% else %}
                                     <div id="fb_machine_{{station.LineID}}" class="fb_machine" style="background-color:red">	
-									    <a href="/sdms/machine/fetch/{{station.LoaderID}}">放板机</a>
+									    <a href="/sdms/device/loader?machine_id={{station.LoaderID}}">放板机</a>
                                     </div>
 
                                 {%endif%}
@@ -97,15 +97,15 @@
 							<li >
                                 {% if station.UnloaderStatus == '自动运行中'%}
 								    <div id="sb_machine_{{station.LineID}}" class="sb_machine" style="background-color:green">	
-									    <a href="/sdms/machine/fetch/{{station.UnloaderID}}">收板机</a>
+									    <a href="/sdms/device/loader?machine_id={{station.UnloaderID}}">收板机</a>
                                     </div>
                                 {% elif station.UnloaderStatus == '待机' %}
                                     <div id="sb_machine_{{station.LineID}}" class="sb_machine" style="background-color:orange">	
-									    <a href="/sdms/machine/fetch/{{station.UnloaderID}}">收板机</a>
+									    <a href="/sdms/device/loader?machine_id={{station.UnloaderID}}">收板机</a>
                                     </div>
                                 {% else%}
                                     <div id="sb_machine_{{station.LineID}}" class="sb_machine" style="background-color:red">	
-									    <a href="/sdms/machine/fetch/{{station.UnloaderID}}">收板机</a>
+									    <a href="/sdms/device/loader?machine_id={{station.UnloaderID}}">收板机</a>
                                     </div>
 
                                 {%endif%}

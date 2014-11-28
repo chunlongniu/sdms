@@ -110,8 +110,7 @@ border-radius: 8px;margin-top:-3px; padding-top:-4px">
         function() {
             var url=window.location.search;
             var machine_id = url.split("=")[1];
-            var obj = jQuery("#work_shop_"+ machine_id );
-            .trigger("click");
+            jQuery("#work_shop_"+ machine_id ).trigger("click");
             
         }
     );

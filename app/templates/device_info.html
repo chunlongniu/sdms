@@ -38,7 +38,7 @@
                     {% endfor%}
 				</ul>
 		  	  </li>
-			<li><h4>流水线</h4>
+			<li><h4>制程</h4>
 				<ul>
                     {% for device in LineType %}
                             <li id="work_shop_{{device.machine_id}}" onclick='get_machine_info({{device.machine_id}}, "{{device.line_type}}", {{device.line_id}}, "{{device.loader_status}}", "work_shop_"+{{device.machine_id}})'>
